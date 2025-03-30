@@ -764,3 +764,17 @@ async function sendScheduledUpdate(chatId, schedule) {
   console.log("Telegram bot started and is polling for updates...");
   
 })();
+
+// Added a simple HTTP server to keep the bot alive
+
+const http = require('http');
+const port = process.env.PORT || 4000;
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Telegram Bot is running!');
+});
+
+server.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});
