@@ -1,0 +1,33 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches: [ "main" ] # Or your main branch name
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x' # Or your required Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render Deploy
+        uses: actions/http-client@v2.0.0
+        with:
+          method: POST
+          url: https://api.render.com/v1/services/<YOUR_RENDER_SERVICE_ID>/deploy
+          headers:
+            Content-Type: application/json
+            Authorization: Bearer ${{ secrets.RENDER_API_KEY }}
