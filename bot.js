@@ -544,8 +544,6 @@ bot.on("callback_query", async (callbackQuery) => {
       subreddit,
       feedType,
       hour,
-      // In a real application, you would store the actual interval ID here
-      // For this demo, we'll just store the schedule details
       intervalId: `${Date.now()}`
     });
     
@@ -560,9 +558,6 @@ bot.on("callback_query", async (callbackQuery) => {
         }
       }
     );
-    
-    // Note: In a real application, you would set up actual scheduled tasks here
-    // This is simplified for the demo
   }
   else if (data === "cancel_schedule") {
     // User canceled scheduling
@@ -578,10 +573,6 @@ bot.on("callback_query", async (callbackQuery) => {
     const index = parseInt(data.split("_")[2]);
     
     if (scheduledUpdates[chatId] && scheduledUpdates[chatId][index]) {
-      // In a real app, you would clear the actual interval here
-      // const intervalId = scheduledUpdates[chatId][index].intervalId;
-      // clearInterval(intervalId);
-      
       // Remove the schedule
       const removedSchedule = scheduledUpdates[chatId].splice(index, 1)[0];
       
@@ -596,13 +587,6 @@ bot.on("callback_query", async (callbackQuery) => {
   else if (data === "cancel_all_schedules") {
     // Cancel all scheduled updates
     if (scheduledUpdates[chatId] && scheduledUpdates[chatId].length > 0) {
-      // In a real app, you would clear all actual intervals here
-      /*
-      scheduledUpdates[chatId].forEach(schedule => {
-        clearInterval(schedule.intervalId);
-      });
-      */
-      
       const count = scheduledUpdates[chatId].length;
       scheduledUpdates[chatId] = [];
       
@@ -745,7 +729,6 @@ async function fetchAndSendPosts(chatId, subreddit, feedType) {
 }
 
 // Function to send scheduled updates
-// In a real application, you would call this from actual scheduled tasks
 async function sendScheduledUpdate(chatId, schedule) {
   try {
     bot.sendMessage(
@@ -780,6 +763,4 @@ async function sendScheduledUpdate(chatId, schedule) {
   
   console.log("Telegram bot started and is polling for updates...");
   
-  // In a real application, you would set up scheduled tasks here
-  // This is simplified for the demo
 })();
